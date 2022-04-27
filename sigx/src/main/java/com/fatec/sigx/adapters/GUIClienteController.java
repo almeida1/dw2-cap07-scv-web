@@ -22,9 +22,9 @@ public class GUIClienteController {
 	@GetMapping("/clientes")
 	public ModelAndView retornaFormDeConsultaTodosClientes() {
 		logger.info(">>>>>> controller consulta todos chamado" );
-		ModelAndView modelAndView = new ModelAndView("consultarCliente");
-		modelAndView.addObject("clientes", servico.consultaTodos());
-		return modelAndView;
+		ModelAndView mv = new ModelAndView("consultarCliente");
+		mv.addObject("clientes", servico.consultaTodos());
+		return mv;
 	}
 	@GetMapping("/cliente")
 	public ModelAndView retornaFormDeCadastroDe(Cliente cliente) {
@@ -34,38 +34,38 @@ public class GUIClienteController {
 	}
 	@GetMapping("/clientes/{cpf}") // diz ao metodo que ira responder a uma requisicao do tipo get
 	public ModelAndView retornaFormParaEditarCliente(@PathVariable("cpf") String cpf) {
-		ModelAndView modelAndView = new ModelAndView("atualizarCliente");
-		modelAndView.addObject("cliente", servico.consultaPorCpf(cpf).get()); // retorna um objeto do tipo cliente
-		return modelAndView; // addObject adiciona objetos para view
+		ModelAndView mv = new ModelAndView("atualizarCliente");
+		mv.addObject("cliente", servico.consultaPorCpf(cpf).get()); // retorna um objeto do tipo cliente
+		return mv; // addObject adiciona objetos para view
 	}
 	@GetMapping("/clientes/id/{id}")
 	public ModelAndView excluirNoFormDeConsultaCliente(@PathVariable("id") Long id) {
 		servico.delete(id);
 		logger.info(">>>>>> 1. servico de exclusao chamado para o id =>  " + id);
-		ModelAndView modelAndView = new ModelAndView("consultarCliente");
-		modelAndView.addObject("clientes", servico.consultaTodos());
-		return modelAndView;
+		ModelAndView mv = new ModelAndView("consultarCliente");
+		mv.addObject("clientes", servico.consultaTodos());
+		return mv;
 	}
 	@PostMapping("/clientes")
 	public ModelAndView save(@Valid Cliente cliente, BindingResult result) {
-		ModelAndView modelAndView = new ModelAndView("consultarCliente");
+		ModelAndView mv = new ModelAndView("consultarCliente");
 		if (result.hasErrors()) {
-			modelAndView.setViewName("cadastrarCliente");
+			mv.setViewName("cadastrarCliente");
 		} else {
 			if (servico.save(cliente).isPresent()) {
 				logger.info(">>>>>> controller chamou adastrar e consulta todos");
-				modelAndView.addObject("clientes", servico.consultaTodos());
+				mv.addObject("clientes", servico.consultaTodos());
 			} else {
 				logger.info(">>>>>> controller cadastrar com dados invalidos");
-				modelAndView.setViewName("cadastrarCliente");
-				modelAndView.addObject("message", "Dados invalidos");
+				mv.setViewName("cadastrarCliente");
+				mv.addObject("message", "Dados invalidos");
 			}
 		}
-		return modelAndView;
+		return mv;
 	}
 	@PostMapping("/clientes/id/{id}")
 	public ModelAndView atualizaCliente(@PathVariable("id") Long id, @Valid Cliente cliente, BindingResult result) {
-		ModelAndView modelAndView = new ModelAndView("consultarCliente");
+		ModelAndView mv = new ModelAndView("consultarCliente");
 		logger.info(">>>>>> servico para atualizacao de dados chamado");
 		if (result.hasErrors()) {
 			logger.info(">>>>>> servico para atualizacao de dados com erro");
@@ -73,9 +73,9 @@ public class GUIClienteController {
 			return new ModelAndView("atualizarCliente");
 		} else {
 			servico.altera(cliente);
-			modelAndView.addObject("clientes", servico.consultaTodos());
+			mv.addObject("clientes", servico.consultaTodos());
 		}
 
-		return modelAndView;
+		return mv;
 	}
 }

@@ -81,9 +81,9 @@ public class GUIPedidoController {
 	public ModelAndView excluirPedido(@PathVariable("id") Long id) {
 		logger.info(">>>>>> 1. servico de exclusao chamado ");
 		mantemPedido.excluiPedido(id);
-		ModelAndView modelAndView = new ModelAndView("consultarPedido");
-		modelAndView.addObject("pedidos", mantemPedido.consultaTodos());
-		return modelAndView;
+		ModelAndView mv = new ModelAndView("consultarPedido");
+		mv.addObject("pedidos", mantemPedido.consultaTodos());
+		return mv;
 	}
 	
 }
