@@ -89,7 +89,8 @@ public class SigxApplication implements CommandLineRunner {
 		umProduto = produtoRepository.findById(2L);
 		produtoComprado1 = umProduto.get();
 		ip1 = new ItemDePedido(produtoComprado1, 20); // quantidade comprada
-		pedido2.getItens().addAll(Arrays.asList(ip1));
+		pedido2.getItens().add(ip1);
+		//pedido2.getItens().addAll(Arrays.asList(ip1));
 		pedidoServico.cadastrarPedido(pedido2);
 		// *******************************************************************************************
 		// Cadastrar Pedido 3 - entrada de dados
@@ -100,7 +101,8 @@ public class SigxApplication implements CommandLineRunner {
 		umProduto = produtoRepository.findById(3L);
 		produtoComprado1 = umProduto.get();
 		ip1 = new ItemDePedido(produtoComprado1, 12); // quantidade comprada
-		pedido3.getItens().addAll(Arrays.asList(ip1));
+		pedido3.getItens().add(ip1);
+		//pedido3.getItens().addAll(Arrays.asList(ip1));
 		pedidoServico.cadastrarPedido(pedido3);
 
 	}
